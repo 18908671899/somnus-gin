@@ -12,6 +12,10 @@ func main() {
 	// 初始化配置
 	bootstrap.InitConfig()
 
+	// 初始化日志
+	global.App.Log = bootstrap.InitLog()
+	global.App.Log.Info("log init success!")
+
 	r := gin.Default()
 
 	// 测试路由
