@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"somnus-gin/bootstrap"
 	"somnus-gin/global"
 )
@@ -16,13 +14,16 @@ func main() {
 	global.App.Log = bootstrap.InitLog()
 	global.App.Log.Info("log init success!")
 
-	r := gin.Default()
-
-	// 测试路由
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(http.StatusOK, "pong")
-	})
+	// 初始化数据库
+	global.App.DB = bootstrap.InitDB()
+	// 程序关闭前，释放数据库连接
+	defer func() {
+		if global.App.DB != nil {
+			db, _ := global.App.DB.DB()
+			db.Close()
+		}
+	}()
 
 	// 启动服务器
-	r.Run(":" + global.App.Config.App.Port)
+	bootstrap.RunServer()
 }
