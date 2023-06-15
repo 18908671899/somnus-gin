@@ -12,8 +12,8 @@ type ID struct {
 
 // 创建、更新时间
 type Timestamps struct {
-	CreateAt time.Time `json:"create_at"`
-	UpdateAt time.Time `json:"update_at"`
+	CreateAt time.Time `json:"create_at" gorm:"default:null"`
+	UpdateAt time.Time `json:"update_at" gorm:"default:null"`
 }
 
 // 逻辑删除
